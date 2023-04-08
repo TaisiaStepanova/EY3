@@ -1,0 +1,561 @@
+#:import Factory kivy.factory.Factory
+
+ScreenManager:
+    id: screen_manager
+    MenuScreen:
+        id: menu_screen
+        name: 'Меню'
+        manager: screen_manager
+    DictionaryScreen:
+        id: dictionary_screen
+        name: 'Словарь'
+        manager: screen_manager
+    RefScreen:
+        id: ref_screen
+        name: 'Справка'
+        manager: screen_manager
+    FormsScreen:
+        id: forms_screen
+        name: 'Формы'
+        manager: screen_manager
+
+
+
+
+
+<MenuScreen>
+
+    BoxLayout:
+        padding: 25, 0, 0, 0
+
+        BoxLayout:
+            orientation: "vertical"
+            padding: 150, 150, 150, 150
+            spacing: 20
+
+            Button:
+                background_color: 0.92, 0.75, 1
+                background_normal: ''
+                on_press: app.show_data('nan')
+                on_release: root.manager.current = 'Словарь'
+                color: 0.34, 0.14, 0.43
+                text: "Просмотр словаря"
+                font_size: 24
+                disabled: False
+
+            Button:
+                background_color: 0.92, 0.75, 1
+                background_normal: ''
+                color: 0.34, 0.14, 0.43
+                text: "Загрузить текст"
+                font_size: 24
+                disabled: False
+                on_press: Factory.DownloadPopup().open()
+
+
+            Button:
+                background_color: 0.92, 0.75, 1
+                background_normal: ''
+                color: 0.34, 0.14, 0.43
+                text: "Справка"
+                font_size: 24
+                disabled: False
+                on_press: root.manager.current = 'Справка'
+
+
+
+<DictionaryScreen>
+    BoxLayout:
+        orientation: "vertical"
+        padding: 5
+        id: bl_1
+
+        GridLayout:
+            cols: 2
+            id: gl_1
+
+            BoxLayout:
+                orientation: "vertical"
+                padding: 5
+                background_color: 1, 0, 0, 1
+                background_normal: ''
+                id: bl_2
+
+
+                BoxLayout:
+
+                    GridLayout:
+                        cols: 1
+                        id: gl_2
+
+                    GridLayout:
+                        cols: 2
+                        id: gl_3
+                        size_hint: .1, 1
+                        spacing: 10
+
+                BoxLayout:
+                    padding: 5
+                    spacing: 5
+                    size_hint: 1, .07
+
+                    Button:
+                        color: 0, 0, 0, 1
+                        text: "<-"
+                        font_size: 14
+                        disabled: False
+                        on_press: app.to_x_page(current_page, '-')
+                        color: 0.34, 0.14, 0.43
+                        background_color: 0.82, 0.43, 1, 1
+                        background_normal: ''
+
+                    Button:
+                        color: 0, 0, 0, 1
+                        text: "1"
+                        font_size: 14
+                        disabled: False
+                        on_press: app.to_first_page(current_page)
+                        color: 0.34, 0.14, 0.43
+                        background_color: 0.82, 0.43, 1, 1
+                        background_normal: ''
+
+                    Label:
+                        id: current_page
+                        font_size: 20
+                        text: "1"
+                        color: 0.34, 0.14, 0.43
+
+                    Button:
+                        id: last_page
+                        color: 0, 0, 0, 1
+                        text: "1"
+                        font_size: 14
+                        disabled: False
+                        on_press: app.to_last_page(current_page)
+                        color: 0.34, 0.14, 0.43
+                        background_color: 0.82, 0.43, 1, 1
+                        background_normal: ''
+
+                    Button:
+                        color: 0, 0, 0, 1
+                        text: "->"
+                        font_size: 14
+                        disabled: False
+                        on_press: app.to_x_page(current_page, '+')
+                        color: 0.34, 0.14, 0.43
+                        background_color: 0.82, 0.43, 1, 1
+                        background_normal: ''
+                        radius: [40]
+
+
+
+            BoxLayout:
+                orientation: "vertical"
+                padding: 9
+                size_hint: .2, 1
+
+                Label:
+                    id: number_record
+                    size_hint: 1, .1
+                    text: "Кол-во записей: 0"
+                    color: 0.34, 0.14, 0.43, 1
+
+                Label:
+                    size_hint: 1, .1
+                    text: "Кол-во на страницу:"
+                    color: 0.34, 0.14, 0.43, 1
+
+
+                BoxLayout:
+                    size_hint: 1, .1
+                    spacing: 5
+
+                    Label:
+                        size_hint: 1, .1
+                        text: "5"
+                        color: 0.34, 0.14, 0.43, 1
+
+                    Label:
+                        size_hint: 1, .1
+                        text: "10"
+                        color: 0.34, 0.14, 0.43, 1
+
+
+                BoxLayout:
+                    size_hint: 1, .1
+                    spacing: 5
+
+                    CheckBox:
+                        group:"num_record"
+                        active: "down"
+                        on_active: app.to_x_record(5)
+                        color: 0.34, 0.14, 0.43
+
+                    CheckBox:
+                        group:"num_record"
+                        on_active: app.to_x_record(10)
+                        color: 0.34, 0.14, 0.43
+
+
+
+                Label:
+                    size_hint: 1, .1
+                    text: "Слово"
+                    color: 0.34, 0.14, 0.43, 1
+
+                TextInput:
+                    id: word
+                    size_hint: 1, .1
+                    multiline: False
+                    text: ""
+
+                Label:
+                    size_hint: 1, .1
+                    text: ""
+                    color: 0.34, 0.14, 0.43, 1
+
+                Button:
+                    size_hint: 1, .1
+                    text: "Поиск"
+                    font_size: 20
+                    disabled: False
+                    on_press: app.show_data(word)
+                    color: 0.34, 0.14, 0.43
+                    background_color: 0.82, 0.43, 1, 1
+                    background_normal: ''
+
+                Label:
+                    size_hint: 1, .1
+                    text: ""
+                    color: 0.34, 0.14, 0.43, 1
+
+                Button:
+                    size_hint: 1, .1
+                    text: "Сбросить"
+                    font_size: 20
+                    disabled: False
+                    on_press: app.reset()
+                    color: 0.34, 0.14, 0.43
+                    background_color: 0.82, 0.43, 1, 1
+                    background_normal: ''
+
+
+                Widget:
+                    text: ""
+
+                Button:
+                    size_hint: 1, .1
+                    text: "Назад"
+                    font_size: 20
+                    disabled: False
+                    on_press: root.manager.current = 'Меню'
+                    color: 0.34, 0.14, 0.43
+                    background_color: 0.82, 0.43, 1, 1
+                    background_normal: ''
+
+
+<DownloadPopup@Popup>:
+    background: ''
+    background_color: 0.92, 0.75, 1, 1
+    title_color: 0.34, 0.14, 0.43
+    auto_dismiss: False
+    title: "Загрузка данных из файла"
+    size_hint: .6, .6
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: 10
+
+        Label:
+            font_size: 20
+            text: "Выберите файл"
+            size_hint: 1, .18
+            color: 0.34, 0.14, 0.43
+
+        FileChooserListView:
+            id: filechooser
+            on_selection: app.controller.selected(filechooser.selection, label, button)
+
+        Button:
+            id: button
+            size_hint: 1, .1
+            text: "Загрузить"
+            font_size: 20
+            disabled: False
+            on_press:app.controller.load_word(label, button)
+            color: 0.34, 0.14, 0.43
+            background_color: 0.82, 0.43, 1, 1
+            background_normal: ''
+
+        Label:
+            id: label
+            font_size: 20
+            text: ""
+            size_hint: 1, .2
+            color: 0, .26, .41, 1
+
+
+        Button:
+            size_hint: 1, .1
+            text: "Закрыть"
+            font_size: 20
+            disabled: False
+            on_press:root.dismiss()
+            color: 0.34, 0.14, 0.43
+            background_color: 0.82, 0.43, 1, 1
+            background_normal: ''
+
+<RefScreen>
+    BoxLayout:
+        orientation: "vertical"
+        padding: 20
+
+        Label:
+            font_size: 20
+            text: " Данное приложения является словарем.  \n * для просмотра словаря выберите режим -  просмотр словаря  \n      режим просмотра словаря реализует следующий функционал:\n          - просмотр всех cлов, которые были загружены в словарь, \n          - удаление слов из словаря, \n          - поиск слов в словаре, \n          - редактирование результатов лексических функций \n         \n * для загрузки новых слов выберите режим - загрузить текст и укажите полный путь к файлу "
+
+            size_hint: 1, .18
+            color: 0.34, 0.14, 0.43
+
+        Label:
+            id: label
+            font_size: 20
+            text: ""
+            size_hint: 1, .18
+            color: 0, .26, .41, 1
+
+        Button:
+            size_hint: 1, .05
+            text: "Назад"
+            font_size: 20
+            disabled: False
+            on_press: root.manager.current = 'Меню'
+            color: 0.34, 0.14, 0.43
+            background_color: 0.82, 0.43, 1, 1
+            background_normal: ''
+
+<FormsScreen>
+    BoxLayout:
+        orientation: "vertical"
+        padding: 5
+        id: bl_1
+
+        GridLayout:
+            cols: 2
+
+            BoxLayout:
+                orientation: "vertical"
+                padding: 5
+                background_color: 1, 0, 0, 1
+                background_normal: ''
+                id: bl_2
+
+                GridLayout:
+                    size_hint: 1, .1
+                    cols: 1
+                    id: box
+
+                BoxLayout:
+                    padding: 5
+                    size_hint: 1, .1
+
+                    Label:
+                        font_size: 14
+                        text: "Лексическая функция"
+                        color: 0.34, 0.14, 0.43
+
+                    Label:
+                        font_size: 14
+                        text: "Значения"
+                        color: 0.34, 0.14, 0.43
+
+
+
+                BoxLayout:
+
+                    GridLayout:
+                        cols: 2
+                        id: gl_form_2
+
+                    GridLayout:
+                        cols: 1
+                        id: gl_form_3
+                        size_hint: .1, 1
+                        spacing: 10
+
+                BoxLayout:
+                    padding: 5
+                    spacing: 5
+                    size_hint: 1, .07
+
+                    Button:
+                        color: 0, 0, 0, 1
+                        text: "<-"
+                        font_size: 14
+                        disabled: False
+                        on_press: app.to_x_page_form(current_page, '-')
+                        color: 0.34, 0.14, 0.43
+                        background_color: 0.82, 0.43, 1, 1
+                        background_normal: ''
+
+                    Button:
+                        color: 0, 0, 0, 1
+                        text: "1"
+                        font_size: 14
+                        disabled: False
+                        on_press: app.to_first_page_form(current_page)
+                        color: 0.34, 0.14, 0.43
+                        background_color: 0.82, 0.43, 1, 1
+                        background_normal: ''
+
+                    Label:
+                        id: current_page
+                        font_size: 20
+                        text: "1"
+                        color: 0.34, 0.14, 0.43
+
+                    Button:
+                        id: last_page
+                        color: 0, 0, 0, 1
+                        text: "1"
+                        font_size: 14
+                        disabled: False
+                        on_press: app.to_last_page_form(current_page)
+                        color: 0.34, 0.14, 0.43
+                        background_color: 0.82, 0.43, 1, 1
+                        background_normal: ''
+
+                    Button:
+                        color: 0, 0, 0, 1
+                        text: "->"
+                        font_size: 14
+                        disabled: False
+                        on_press: app.to_x_page_form(current_page, '+')
+                        color: 0.34, 0.14, 0.43
+                        background_color: 0.82, 0.43, 1, 1
+                        background_normal: ''
+                        radius: [40]
+
+
+
+            BoxLayout:
+                orientation: "vertical"
+                padding: 9
+                size_hint: .2, 1
+
+                Label:
+                    id: number_record
+                    size_hint: 1, .1
+                    text: "Кол-во записей: 0"
+                    color: 0.34, 0.14, 0.43, 1
+
+                Label:
+                    size_hint: 1, .1
+                    text: "Кол-во на страницу:"
+                    color: 0.34, 0.14, 0.43, 1
+
+
+                BoxLayout:
+                    size_hint: 1, .1
+                    spacing: 5
+
+                    Label:
+                        size_hint: 1, .1
+                        text: "5"
+                        color: 0.34, 0.14, 0.43, 1
+
+                    Label:
+                        size_hint: 1, .1
+                        text: "10"
+                        color: 0.34, 0.14, 0.43, 1
+
+
+                BoxLayout:
+                    size_hint: 1, .1
+                    spacing: 5
+
+                    CheckBox:
+                        group:"num"
+                        active: "down"
+                        on_active: app.to_x_record_form(5)
+                        color: 0.34, 0.14, 0.43
+
+                    CheckBox:
+                        group:"num"
+                        on_active: app.to_x_record_form(10)
+                        color: 0.34, 0.14, 0.43
+
+
+                Widget:
+                    text: ""
+
+                Button:
+                    size_hint: 1, .1
+                    text: "Назад"
+                    font_size: 20
+                    disabled: False
+                    on_press: root.manager.current = 'Словарь'
+                    color: 0.34, 0.14, 0.43
+                    background_color: 0.82, 0.43, 1, 1
+                    background_normal: ''
+
+
+<EditPopup@Popup>:
+    background: ''
+    background_color: 0.92, 0.75, 1, 1
+    title_color: 0.34, 0.14, 0.43
+    auto_dismiss: False
+    title: "Редактирование отношения"
+    size_hint: .5, .5
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: 10
+
+        Label:
+            font_size: 20
+            text: "Введите новое отношение"
+            size_hint: 1, .18
+            color: 0.34, 0.14, 0.43
+
+        TextInput:
+            id: edit_form
+            size_hint: 1, .1
+            multiline: False
+            text: ""
+
+        Label:
+            id: label
+            font_size: 20
+            text: ""
+            size_hint: 1, .05
+            color: 0, .26, .41, 1
+
+
+        Button:
+            size_hint: 1, .1
+            text: "Изменить"
+            font_size: 20
+            disabled: False
+            on_press:app.controller.edit_form(edit_form, label)
+            color: 0.34, 0.14, 0.43
+            background_color: 0.82, 0.43, 1, 1
+            background_normal: ''
+
+        Label:
+            id: label
+            font_size: 20
+            text: ""
+            size_hint: 1, .05
+            color: 0, .26, .41, 1
+
+        Button:
+            size_hint: 1, .1
+            text: "Закрыть"
+            font_size: 20
+            disabled: False
+            on_press:root.dismiss()
+            color: 0.34, 0.14, 0.43
+            background_color: 0.82, 0.43, 1, 1
+            background_normal: ''
+
